@@ -1,0 +1,42 @@
+// Build the Random Forecaster app
+// stores columns of data from the weather table in lists
+var cityList = getColumn("Daily Weather", "City");
+var forecastNumberList = getColumn("Daily Weather", "Forecast Number");
+var iconList = getColumn("Daily Weather", "Icon");
+var highTempList = getColumn("Daily Weather", "High Temperature");
+var lowTempList = getColumn("Daily Weather", "Low Temperature");
+var conditionDescriptionList = getColumn("Daily Weather", "Condition Description");
+
+// filtered lists
+var filteredCityList = [];
+var filteredIconList = [];
+var filteredHighTempList = [];
+var filteredLowTempList = [];
+var filteredConditionDescriptionList = [];
+//OnEvent Block to call functions
+onEvent("forecastButton", "click", function( ) {
+  getForecast();
+  update();
+  console.log("done");
+});
+//Function to tomorrows forecast
+function getForecast() {
+  for (var i = 0; i < cityList.length; i++) {
+    if (forecastNumberList[i] == 2) {
+      appendItem(filteredCityList,cityList[i]);
+      appendItem(filteredIconList,iconList[i]);
+      appendItem(filteredHighTempList,highTempList[i]);
+      appendItem (filteredLowTempList,lowTempList[i]);
+      appendItem(filteredConditionDescriptionList,conditionDescriptionList[i]);
+    }
+  }
+}
+//Function to change the text on screen
+function update() {
+  var number = randomNumber(0, filteredCityList.length-1);
+  setProperty("iconOutput", "image", filteredIconList[number]);
+  setText("highTempOutput", filteredHighTempList[number]);
+  setText("lowTempOutput", filteredLowTempList[number]);
+  setText("cityOutput", filteredCityList[number]);
+  setText("conditionOutput", filteredConditionDescriptionList[number]);
+}
